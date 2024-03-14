@@ -1,33 +1,41 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+ 
+  const[search,setSearch]= useState('');
+  const[definition,setDefinition]=useState('');
+
+  const dictionary=
+  [
+  
+      { word: "React", meaning: "A JavaScript library for building user interfaces." },
+  
+      { word: "Component", meaning: "A reusable building block in React." },
+  
+      { word: "State", meaning: "An object that stores data for a component." }
+  
+  ]
+  const handleClick=(e)=>{
+     e.preventDefault();
+     const word=dictionary.filter((w)=>search.toLowerCase()==w.word.toLowerCase());
+     if(word.length!=0)
+     setDefinition(word[0].meaning);
+    else
+    setDefinition('Word not found in the dictionary.');
+  }
+
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <h1>Dictionary App</h1>
+        <input type='text' name='search' value={search} onChange={(e)=>setSearch(e.target.value)} placeholder='Search for a word'/>
+        <button onClick={handleClick}>Search</button>
+        <h2>Definition:</h2>
+        <p>{definition}</p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
